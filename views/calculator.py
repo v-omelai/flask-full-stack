@@ -13,4 +13,9 @@ def calculator():
 
 @bp.route('/calculate/', methods=['POST'])
 def calculate():
-    return {'result': Calculator.calculate(request.json)}
+    value, error = None, None
+    try:
+        value = Calculator.calculate(request.json)
+    except ZeroDivisionError:
+        error = 'ZeroDivisionError'
+    return {'value': value, 'error': error}

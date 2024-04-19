@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addRow = document.getElementById('add-row');
     const removeRow = document.getElementById('remove-row');
     const calculate = document.getElementById('calculate');
+    const easterEgg = document.getElementById('easter-egg');
     const [minRows, maxRows] = [1, 5];
 
     let row = 1;
@@ -51,8 +52,14 @@ document.addEventListener('DOMContentLoaded', () => {
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.onload = function() {
             if (xhr.status === 200) {
-                const result = JSON.parse(xhr.responseText);
-                M.toast({html: `Result is: ${result.result}`});
+                const response = JSON.parse(xhr.responseText);
+                const value = response.value;
+                const error = response.error;
+                if (error === 'ZeroDivisionError') {
+                    M.Modal.getInstance(easterEgg).open();
+                } else {
+                    M.toast({html: `Value is: ${value}`});
+                }
             } else {
                 M.toast({html: 'Something went wrong'});
             }
