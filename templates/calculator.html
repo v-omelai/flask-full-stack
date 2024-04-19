@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='calculator.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">Calculator</span>
+                <form name="operations">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input name="row-0-operand" placeholder="Operand" type="number" step="any" class="validate">
+                        </div>
+                    </div>
+                    <div name="operations" class="row">
+                        <div class="input-field col s6">
+                            <select name="row-1-operator">
+                                <option value="" selected>Operator</option>
+                                <option value="addition">+</option>
+                                <option value="subtraction">-</option>
+                                <option value="division">/</option>
+                                <option value="multiplication">*</option>
+                            </select>
+                        </div>
+                        <div class="input-field col s6">
+                            <input name="row-1-operand" placeholder="Operand" type="number" step="any" class="validate">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-action">
+                <div class="row">
+                    <div class="col s6"><a id="add-row" class="waves-effect waves-light btn green darken-1 w-100">Add row</a></div>
+                    <div class="col s6"><a id="remove-row" class="waves-effect waves-light btn red darken-1 w-100 disabled">Remove row</a></div>
+                </div>
+                <div class="row">
+                    <div class="col s12"><a id="calculate" class="waves-effect waves-light btn light-blue darken-1 w-100">Calculate</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="{{ url_for('static', filename='calculator.js') }}"></script>
+</body>
+</html>
