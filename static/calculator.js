@@ -12,17 +12,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     M.AutoInit();
 
-    addRow.addEventListener('click', (e) => {
+    addRow.addEventListener('click', async (e) => {
         if (row < maxRows) {
             row += 1;
-            newElement = cloned.cloneNode(true);
+            const newElement = cloned.cloneNode(true);
             newElement.querySelector('[name=row-1-operator]').setAttribute('name', `row-${row}-operator`);
             newElement.querySelector('[name=row-1-operand]').setAttribute('name', `row-${row}-operand`);
             operationsForm.appendChild(newElement);
             M.AutoInit();
             removeRow.classList.remove('disabled');
-        } 
-        if (row == maxRows) {
+        }
+        if (row === maxRows) {
             addRow.classList.add('disabled');
             M.toast({html: `Maximum rows: ${maxRows}`});
         }
@@ -34,40 +34,41 @@ document.addEventListener('DOMContentLoaded', () => {
             operationsForm.removeChild(operationsForm.lastChild);
             addRow.classList.remove('disabled');
         }
-        if (row == minRows) {
+        if (row === minRows) {
             removeRow.classList.add('disabled');
             M.toast({html: `Minimum rows: ${minRows}`});
         }
     });
 
-    calculate.addEventListener('click', (e) => {
+    calculate.addEventListener('click', async (e) => {
         const formData = new FormData(operationsForm);
-        const xhr = new XMLHttpRequest();
         let jsonData = {};
 
         for (const value of formData.values()) {
             if (value.trim() === '') return M.toast({html: 'Fields cannot be empty'});
         }
-        xhr.open('POST', '/calculator/calculate', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
-                const value = response.value;
-                const error = response.error;
-                if (error === 'ZeroDivisionError') {
-                    M.Modal.getInstance(easterEgg).open();
-                } else {
-                    M.toast({html: `Value is: ${value}`});
-                }
-            } else {
-                M.toast({html: 'Something went wrong'});
+
+        try {
+            const response = await fetch('/calculator/calculate', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(Object.fromEntries(formData))
+            });
+
+            if (!response.ok) {
+                throw new Error('Something went wrong');
             }
-        };
-        xhr.onerror = function() {
-            M.toast({html: 'Something went wrong'});
-        };
-        formData.forEach((value, key) => jsonData[key] = value);
-        xhr.send(JSON.stringify(jsonData));
+
+            const data = await response.json();
+            const { value, error } = data;
+
+            if (error === 'ZeroDivisionError') {
+                M.Modal.getInstance(easterEgg).open();
+            } else {
+                M.toast({html: `Value is: ${value}`});
+            }
+        } catch (error) {
+            M.toast({html: error.message});
+        }
     });
 });
