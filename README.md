@@ -1,8 +1,17 @@
-# Calculator Challenge
+# Full-Stack Challenge
 
 ## Overview
 
 This challenge involves creating a web-based calculator application that performs basic arithmetic operations. The focus is on a robust design that separates business logic from presentation, and is extendable for future enhancements.
+
+## Usage
+
+- **Create a virtual environment:** `python -m venv venv`
+- **Activate a virtual environment:**
+  - **Windows**: `venv/Scripts/activate`
+  - **Linux or Mac**: `source venv/bin/activate`
+- **Install dependencies:** `pip install -r requirements.txt`
+- **Run an application:** `flask run`
 
 ## Functional Requirements
 
