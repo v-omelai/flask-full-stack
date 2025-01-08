@@ -8,7 +8,7 @@ This challenge involves creating a web-based calculator application that perform
 
 - **Create a virtual environment:** `python -m venv venv`
 - **Activate a virtual environment:**
-  - **Windows**: `venv/Scripts/activate`
+  - **Windows**: `call venv/Scripts/activate`
   - **Linux or Mac**: `source venv/bin/activate`
 - **Install dependencies:** `pip install -r requirements.txt`
 - **Run an application:** `flask run`
